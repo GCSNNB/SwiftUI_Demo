@@ -15,7 +15,6 @@ struct ContentView: View {
     var body: some View {
         let overlayContent = VStack(alignment: .leading) {
             Button(action: newCard) { Text("New Card") }
-            Button(action: clear) { Text("Clear") }
             Spacer()
         }
         .padding()
@@ -34,6 +33,7 @@ struct ContentView: View {
                     }
                     .transition(.scaleAndFade)
                 }
+                .padding([.top, .leading], 30)
                 Spacer()
             }
         }.onReceive(generator, perform: { id in
@@ -50,12 +50,6 @@ struct ContentView: View {
     func newCard() {
         withAnimation() {
             cardList.addCard(.newCard)
-        }
-    }
-
-    func clear() {
-        withAnimation(.easeInOut(duration: 1.0)) {
-            self.cardList.reset()
         }
     }
 }
@@ -80,12 +74,9 @@ extension AnyTransition {
         identity: ScaleAndFade(isEnabled: false))
 }
 
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        let card: CardList.Card = CardList.Card(number: "100", width: 30, height: 30)
-//        let cardList: CardList = CardList(card)
-//        
-//        ContentView()
-//            .environmentObject(cardList)
-//    }
-//}
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+            .environmentObject(CardList())
+    }
+}

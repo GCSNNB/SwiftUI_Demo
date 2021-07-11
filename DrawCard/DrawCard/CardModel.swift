@@ -25,11 +25,16 @@ class CardList: ObservableObject {
     var cardInfo: [Int: Card] {
         get {
             if _cardsNeedUpdate {
-                let tempArr = self.shuffleArray(arr: cardIDs)
+                var nums: [Int] = [Int]()
+                for index in 1...numIndex {
+                    nums.append(index)
+                }
+                let filterNums = Set(nums).symmetricDifference(Set(_deleteNumbers))
+                let tempArr = self.shuffleArray(arr: Array(filterNums))
                 for (i, id) in cardIDs.enumerated() {
                     var card = _cards[id]!
                     card.tag = id
-                    card.number = String(tempArr[i] + 1)
+                    card.number = String(tempArr[i])
                     _cards[id] = card
                 }
                 _cardsNeedUpdate = false
@@ -59,6 +64,7 @@ class CardList: ObservableObject {
 
     private var _cards = [Int: Card]()
     private var _cardsNeedUpdate = false
+    private var _deleteNumbers: [Int] = [Int]()
     
     private(set) var cardIDs = [Int]() {
         willSet {
@@ -79,18 +85,10 @@ class CardList: ObservableObject {
 
     func removeCard(id: Int) {
         let selectCard = cardInfo[id]
-        let deleteID = Int(selectCard!.number)! - 1
-        if let removeId = cardIDs.firstIndex(where: { $0 == deleteID}) {
+        _deleteNumbers.append(Int(selectCard!.number)!)
+        if let removeId = cardIDs.firstIndex(where: { $0 == id}) {
             cardIDs.remove(at: removeId)
         }
-        cardInfo.removeValue(forKey: deleteID)
-    }
-
-    func reset() {
-        if !cardIDs.isEmpty {
-            cardIDs = []
-            cardInfo = [:]
-            numIndex = 0
-        }
+        cardInfo.removeValue(forKey: id)
     }
 }

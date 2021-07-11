@@ -118,9 +118,9 @@ extension CardList.Card {
     }
 }
 
-//struct CardView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        let card: CardList.Card = CardList.Card(number: "10000", width: 10, height: 10)
-//        CardView(card: card)
-//    }
-//}
+struct CardView_Previews: PreviewProvider {
+    static var previews: some View {
+        let generator = PassthroughSubject<Int, Never>()
+        CardView(card: .newCard, generator: generator)
+    }
+}
