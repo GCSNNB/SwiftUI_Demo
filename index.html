@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        div {
+            padding: 10px 0;
+        }
+
+        a {
+            color: #000;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <a href="https://appclip.apple.com/id?p=co.notsobig.bignews.Clip">链接跳转打开测试</a>
+    </div>
+    <div>
+        <span id="test">iframe 打开</span>
+    </div>
+
+    <script>
+        function getIframe() {
+            var ifr = document.getElementById('open_app_iframe')
+            if (ifr) {
+                return ifr
+            }
+            var iframe = document.createElement('iframe')
+            iframe.id = 'open_newsapp_iframe'
+            iframe.style.display = 'none'
+            document.body.appendChild(iframe)
+            return iframe
+        }
+        document.querySelector('#test').addEventListener('click', function() {
+            var iframe = getIframe();
+            iframe.src = 'https://appclip.apple.com/id?p=co.notsobig.bignews.Clip';
+        });
+    </script>
+</body>
+
+</html>
